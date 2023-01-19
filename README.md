@@ -4,8 +4,10 @@ Add/remove debug text from div elements in html files.
 
 ## Usage
 After installing the extension, two commands will now be available from the command palette.  
-`Add Debug`: adds .#. after each div element in the html file currently open in the vs code editor  
-`Remove Debug`: removes the .#. added by the previous command
+- `Add Debug`: adds .#. after each div element in the html file currently open in the vs code editor  
+  - Optionally enter a letter in following text box to help differentiate files
+  - Ex: Entering `x` will output .x#. and empty input will output .#.
+- `Remove Debug`: removes the .#. added by the previous command
 
 These should help to quickly identify elements on an html page that has many div elements.
 

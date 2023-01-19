@@ -1,33 +1,37 @@
-import * as vscode from "vscode";
+import { commands, ExtensionContext, Range, TextEditor, window } from "vscode";
 
 let documentText: string;
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: ExtensionContext) {
     console.log('Congratulations, your extension "debug-html" is now active!');
 
-    let disposable = vscode.commands.registerCommand("debug-html.addDebug", () => {
-        const editor = vscode.window.activeTextEditor;
+    let disposable = commands.registerCommand("debug-html.addDebug", async () => {
+        const letter = await window.showInputBox({
+            value: "",
+            placeHolder: "Enter an letter to include in debug text (Optional)",
+        });
+        const editor = window.activeTextEditor;
         if (editor) {
             documentText = editor.document.getText();
             const regex = /\/div>/g;
             let count = 0;
             while (regex.exec(documentText) !== null) count++;
-            for (let i = 1; i <= count; i++) replaceOccurrence(regex, i, "/div>." + i + ".");
+            for (let i = 1; i <= count; i++) replaceOccurrence(regex, i, "/div>." + letter + i + ".");
             editDocument(editor);
-            vscode.window.showInformationMessage("Added " + count + " items");
+            window.showInformationMessage("Added " + count + " items");
         }
     });
 
-    let disposable2 = vscode.commands.registerCommand("debug-html.removeDebug", () => {
-        const editor = vscode.window.activeTextEditor;
+    let disposable2 = commands.registerCommand("debug-html.removeDebug", () => {
+        const editor = window.activeTextEditor;
         if (editor) {
             documentText = editor.document.getText();
-            const regex = /\/div>(\n| |\r|\t)*\.\d\./g;
+            const regex = /\/div>(\n| |\r|\t)*\..?\d\./g;
             let count = 0;
             while (regex.exec(documentText) !== null) count++;
             for (let i = count; i >= 1; i--) replaceOccurrence(regex, i, "/div>");
             editDocument(editor);
-            vscode.window.showInformationMessage("Deleted " + count + " items");
+            window.showInformationMessage("Deleted " + count + " items");
         }
     });
 
@@ -45,9 +49,9 @@ function replaceOccurrence(regex: RegExp, whichDiv: number, replace: string): st
     return "";
 }
 
-function editDocument(editor: vscode.TextEditor) {
+function editDocument(editor: TextEditor) {
     let lastLine = editor.document.lineAt(editor.document.lineCount - 1);
-    let textRange = new vscode.Range(editor.document.lineAt(0).range.start, lastLine.range.end);
+    let textRange = new Range(editor.document.lineAt(0).range.start, lastLine.range.end);
     editor.edit((textEditorEdit) => {
         textEditorEdit.replace(textRange, documentText);
     });
