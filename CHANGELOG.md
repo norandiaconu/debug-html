@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.1.1
+- Resolved dependency vulnerabilities
+
 ## 1.1.0
 - Added option to add a letter in debug text
 

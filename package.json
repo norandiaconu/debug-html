@@ -2,16 +2,12 @@
 	"name": "debug-html",
 	"displayName": "debug-html",
 	"description": "Add/remove debug text from div elements in html files.",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"engines": {
-		"vscode": "^1.69.0"
+		"vscode": "^1.90.0"
 	},
 	"categories": [
 		"Other"
-	],
-	"activationEvents": [
-		"onCommand:debug-html.addDebug",
-		"onCommand:debug-html.removeDebug"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -32,16 +28,19 @@
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
+		"test": "node ./out/test/runTest.js",
+		"full": "npm run compile && npm run test && vsce package --out out/",
+		"c1": "vsce ls"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.2.0",
 		"@types/mocha": "^9.1.1",
-		"@types/node": "16.x",
-		"@types/vscode": "^1.69.0",
+		"@types/node": "~18.11.9",
+		"@types/vscode": "~1.90.0",
 		"@typescript-eslint/eslint-plugin": "^5.30.0",
 		"@typescript-eslint/parser": "^5.30.0",
-		"@vscode/test-electron": "^2.2.2",
+		"@vscode/test-electron": "~2.3.8",
+		"@vscode/vsce": "~2.27.0",
 		"eslint": "^8.18.0",
 		"glob": "^8.0.3",
 		"mocha": "^10.0.0",
